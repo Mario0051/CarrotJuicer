@@ -46,7 +46,6 @@ namespace mdb
 		std::ifstream file(utf8_encode(libraryvdf));
 		auto root = tyti::vdf::read(file);
 		file.close();
-		auto base = root.childs["libraryfolders"];
 
 		// Find umamusume dir
 		for (const auto& child : root.childs)
@@ -78,7 +77,7 @@ namespace mdb
 			WCHAR buffer[MAX_PATH];
 			const int len = is_steam ? GetEnvironmentVariable(L"PROGRAMFILES(x86)", buffer, MAX_PATH) : GetEnvironmentVariable(L"USERPROFILE", buffer, MAX_PATH);
 
-			std::wstring path(buffer, MAX_PATH);
+			std::wstring path(buffer, len);
 			if (is_steam)
 				path = find_umamusume_path(path + L"\\Steam\\");
 			else
