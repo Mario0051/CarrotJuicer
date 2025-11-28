@@ -222,8 +222,16 @@ void attach()
 	}
 	else 
 	{
-		MH_CreateHook((void*)LoadLibraryW, (void*)load_library_w_hook, &load_library_w_orig);
-		MH_EnableHook((void*)LoadLibraryW);
+		if (GetModuleHandleW(L"cri_ware_unity.dll") != nullptr)
+		{
+			printf("cri_ware_unity.dll is already loaded. Bootstrapping immediately...\n");
+			bootstrap_carrot_juicer();
+		}
+		else
+		{
+			MH_CreateHook((void*)LoadLibraryW, (void*)load_library_w_hook, &load_library_w_orig);
+			MH_EnableHook((void*)LoadLibraryW);
+		}
 	}
 }
 
