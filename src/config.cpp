@@ -1,18 +1,18 @@
 ﻿#include "config.hpp"
+#include "obfuscate.hpp"
 
 #include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <nlohmann/json.hpp>
 
-#define CJCONFIG_READ_PROPERTY(field, j, c) if (j.contains(#field)) c.field = j.at(#field)
+#define CJCONFIG_READ_PROPERTY(field, j, c) if (auto it = j.find(#field); it != j.end()) c.field = it->get<decltype(c.field)>()
 
 using json = nlohmann::json;
 
 namespace config
 {
-	const std::string first = "CarrotJuicer\\cjco";
-	const std::string second = "nfig.json";
+	const std::string config_path = BUILD_PATH("CarrotJuicer\\cjconfig.json");
 
 	config_struct config = {
 		0,
@@ -27,8 +27,6 @@ namespace config
 
 	void load()
 	{
-		std::string config_path = first + second;
-		
 		if (!std::filesystem::exists(config_path))
 		{
 			return;
@@ -54,11 +52,11 @@ namespace config
 			CJCONFIG_READ_PROPERTY(climax_print_shop_items, j, config);
 			CJCONFIG_READ_PROPERTY(discord_rpc, j, config);
 
-			std::cout << "Loaded " << config_path << "\n";
+			std::cout << "Loaded cjco" << "nfig.json\n";
 		}
 		catch (const std::exception& e)
 		{
-			std::cout << "Exception reading cjconfig.json: " << e.what() << "\n";
+			std::cout << "Exception reading cjco" << "nfig.json: " << e.what() << "\n";
 		}
 	}
 

@@ -11,6 +11,7 @@
 #include "responses.hpp"
 #include "notifier.hpp"
 #include "requests.hpp"
+#include "obfuscate.hpp"
 #ifdef DISCORD_RPC_ENABLED
 #include "discord.hpp"
 #endif
@@ -140,10 +141,8 @@ namespace
 
 		std::filesystem::create_directory("CarrotJuicer");
 
-		auto path = L"libn"s;
-		path += L"ative.dll";
-		const auto libnative_module = GetModuleHandle(path.c_str());
-		//printf("libnative.dll at %p\n", libnative_module);
+		const auto libnative_module = GetModuleHandle(BUILD_PATH_W(L"libnative.dll"));
+		printf("%s%s at %p\n", "libna", "tive.dll", libnative_module);
 		uma_window = FindWindow(NULL, is_steam ? L"UmamusumePrettyDerby_Jpn" : L"umamusume");
 		if (uma_window)
 		{

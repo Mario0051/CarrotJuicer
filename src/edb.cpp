@@ -1,3 +1,4 @@
+#include "obfuscate.hpp"
 #include <filesystem>
 #include <fstream>
 #include <iostream>
@@ -11,16 +12,13 @@ namespace edb
 {
 	std::map<int, std::string> formatted_events_choices;
 
-	const std::string first = "CarrotJuicer\\cje";
-	const std::string second = "db.json";
+	const std::string cjedb_path = BUILD_PATH("CarrotJuicer\\cjedb.json");
 
 	void init()
 	{
-		std::string cjedb_path = first + second;
-		
 		if (!std::filesystem::exists(cjedb_path))
 		{
-			std::cout << "Skipping " << cjedb_path << "\n";
+			std::cout << "Skipping cje" << "db.json.\n";
 			return;
 		}
 
@@ -46,11 +44,11 @@ namespace edb
 				formatted_events_choices[v.at("storyId")] = formatted.str();
 			}
 
-			std::cout << cjedb_path << " opened, read " << formatted_events_choices.size() << " events.\n";
+			std::cout << "cje" << "db.json opened, read " << formatted_events_choices.size() << " events.\n";
 		}
 		catch (std::exception& e)
 		{
-			std::cout << "Exception reading " << cjedb_path << ": " << e.what() << "\n";
+			std::cout << "Exception reading cje" << "db.json: " << e.what() << "\n";
 		}
 	}
 
